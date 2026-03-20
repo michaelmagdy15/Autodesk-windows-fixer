@@ -22,8 +22,51 @@ function Build-App {
     $iconPng = "$PSScriptRoot\assets\icon.png"
     $iconIco = "$PSScriptRoot\assets\icon.ico"
 
-    # 2. Skip icon generation since PNG to ICO conversion creates invalid files for CSC compiler
-    $iconIco = $null
+    # 2. Convert PNG to a valid 256x256 ICO (Supports C# Resource Compiler perfectly)
+    if (Test-Path $iconPng) {
+        try {
+            Add-Type -AssemblyName System.Drawing
+            $img = [System.Drawing.Image]::FromFile($iconPng)
+            $bmp = New-Object System.Drawing.Bitmap(256, 256)
+            $g = [System.Drawing.Graphics]::FromImage($bmp)
+            $g.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+            $g.DrawImage($img, 0, 0, 256, 256)
+            
+            $ms = New-Object IO.MemoryStream
+            $bmp.Save($ms, [System.Drawing.Imaging.ImageFormat]::Png)
+            $pngBytes = $ms.ToArray()
+            
+            $g.Dispose()
+            $bmp.Dispose()
+            $img.Dispose()
+            $ms.Dispose()
+
+            $fs = [System.IO.FileStream]::new($iconIco, [System.IO.FileMode]::Create)
+            $bw = [System.IO.BinaryWriter]::new($fs)
+            # ICON DIR
+            $bw.Write([uint16]0)
+            $bw.Write([uint16]1)
+            $bw.Write([uint16]1)
+            # ICON ENTRY
+            $bw.Write([byte]0) # 0 means 256
+            $bw.Write([byte]0)
+            $bw.Write([byte]0)
+            $bw.Write([byte]0)
+            $bw.Write([uint16]1)
+            $bw.Write([uint16]32)
+            $bw.Write([uint32]$pngBytes.Length)
+            $bw.Write([uint32]22)
+            # PNG DATA
+            $bw.Write($pngBytes)
+            $bw.Close()
+            $fs.Dispose()
+        } catch {
+            Write-Warning "Failed to convert icon.png to icon.ico reliably. Skipping."
+            $iconIco = $null
+        }
+    } else {
+        $iconIco = $null
+    }
 
     # 3. Compile to EXE using ps2exe
     $ps2exeArgs = @{
