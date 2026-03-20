@@ -45,8 +45,8 @@ $xaml = @"
                                 <Setter TargetName="bgBorder" Property="Opacity" Value="0.7"/>
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="bgBorder" Property="Background" Value="#A0A0A0"/>
-                                <Setter Property="Foreground" Value="#E0E0E0"/>
+                                <Setter TargetName="bgBorder" Property="Background" Value="#333333"/>
+                                <Setter Property="Foreground" Value="#777777"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -56,9 +56,9 @@ $xaml = @"
     </Window.Resources>
 
     <!-- App Container -->
-    <Border CornerRadius="20" Background="White" BorderThickness="1" BorderBrush="#EAEAEA">
+    <Border CornerRadius="20" Background="#121212" BorderThickness="1" BorderBrush="#2D2D30">
         <Border.Effect>
-            <DropShadowEffect BlurRadius="30" ShadowDepth="10" Opacity="0.15" Direction="270" Color="Black"/>
+            <DropShadowEffect BlurRadius="30" ShadowDepth="10" Opacity="0.5" Direction="270" Color="Black"/>
         </Border.Effect>
         <Grid>
             
@@ -67,10 +67,10 @@ $xaml = @"
             <Rectangle RadiusX="15" RadiusY="15">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,1" EndPoint="1,0">
-                        <GradientStop Color="#4A65E6" Offset="0"/>   <!-- Deep Blue -->
-                        <GradientStop Color="#A262BA" Offset="0.3"/> <!-- Purple -->
-                        <GradientStop Color="#D1508A" Offset="0.6"/> <!-- Pink -->
-                        <GradientStop Color="#E6A140" Offset="1"/>   <!-- Yellow/Orange -->
+                        <GradientStop Color="#000000" Offset="0"/>   <!-- Black -->
+                        <GradientStop Color="#1A1A1A" Offset="0.3"/> <!-- Dark Gray -->
+                        <GradientStop Color="#2D2D30" Offset="0.6"/> <!-- Medium Gray -->
+                        <GradientStop Color="#007ACC" Offset="1"/>   <!-- Blue Accent -->
                     </LinearGradientBrush>
                 </Rectangle.Fill>
                 <Rectangle.OpacityMask>
@@ -95,8 +95,8 @@ $xaml = @"
             </Rectangle>
 
             <!-- GLASSMORPHISM CENTER PANEL -->
-            <Border Background="#EBFFFFFF" CornerRadius="18" Margin="60,60,60,60" Padding="40" 
-                    BorderBrush="#80FFFFFF" BorderThickness="2">
+            <Border Background="#D9161616" CornerRadius="18" Margin="60,60,60,60" Padding="40" 
+                    BorderBrush="#40FFFFFF" BorderThickness="1">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="40" ShadowDepth="5" Opacity="0.2" Color="Black"/>
                 </Border.Effect>
@@ -112,8 +112,8 @@ $xaml = @"
 
                     <!-- Header -->
                     <StackPanel Grid.Row="0" Margin="0,0,0,25">
-                        <TextBlock Text="Autodesk Clean Uninstall" FontSize="36" FontWeight="Black" Foreground="#2A2A2A" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Completely removes all traces of Autodesk to fix installation errors." FontSize="15" Foreground="#666666" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                        <TextBlock Text="Autodesk Clean Uninstall" FontSize="36" FontWeight="Black" Foreground="#FFFFFF" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Completely removes all traces of Autodesk to fix installation errors." FontSize="15" Foreground="#AAAAAA" HorizontalAlignment="Center" Margin="0,5,0,0"/>
                     </StackPanel>
 
                     <!-- Hacker-style Terminal / Log Output -->
@@ -129,18 +129,18 @@ $xaml = @"
                     <!-- Progress tracking -->
                     <StackPanel Grid.Row="3" Margin="0,0,0,25">
                         <Grid Margin="0,0,0,8">
-                            <TextBlock x:Name="txtStatus" Text="Awaiting initialization..." FontSize="14" FontWeight="SemiBold" Foreground="#444444" HorizontalAlignment="Left"/>
-                            <TextBlock x:Name="txtPercent" Text="0%" FontSize="14" FontWeight="Bold" Foreground="#444444" HorizontalAlignment="Right"/>
+                            <TextBlock x:Name="txtStatus" Text="Awaiting initialization..." FontSize="14" FontWeight="SemiBold" Foreground="#CCCCCC" HorizontalAlignment="Left"/>
+                            <TextBlock x:Name="txtPercent" Text="0%" FontSize="14" FontWeight="Bold" Foreground="#CCCCCC" HorizontalAlignment="Right"/>
                         </Grid>
                         
                         <!-- Track Container -->
-                        <Border Height="14" CornerRadius="7" Background="#E0E0E0">
+                        <Border Height="14" CornerRadius="7" Background="#2D2D30">
                             <!-- Animated indicator width managed in codebehind -->
                             <Border x:Name="progressIndicator" Width="0" HorizontalAlignment="Left" CornerRadius="7">
                                 <Border.Background>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                        <GradientStop Color="#4A65E6" Offset="0"/>
-                                        <GradientStop Color="#D1508A" Offset="1"/>
+                                        <GradientStop Color="#007ACC" Offset="0"/>
+                                        <GradientStop Color="#00C6FF" Offset="1"/>
                                     </LinearGradientBrush>
                                 </Border.Background>
                             </Border>
@@ -155,8 +155,8 @@ $xaml = @"
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <Button x:Name="btnExit" Content="CANCEL" Grid.Column="0" Background="#DDDDDD" Foreground="#555555" Style="{StaticResource ModernButton}"/>
-                        <Button x:Name="btnStart" Content="START CLEAN" Grid.Column="2" Background="#4A65E6" Style="{StaticResource ModernButton}"/>
+                        <Button x:Name="btnExit" Content="CANCEL" Grid.Column="0" Background="#333333" Foreground="#FFFFFF" Style="{StaticResource ModernButton}"/>
+                        <Button x:Name="btnStart" Content="START CLEAN" Grid.Column="2" Background="#007ACC" Style="{StaticResource ModernButton}"/>
                     </Grid>
                 </Grid>
             </Border>
@@ -346,11 +346,11 @@ $btnStart.add_Click({
         LogMsg "> Cleanup process fully completed!" 100
         
         $txtStatus.Text = "Success! Please restart your PC."
-        $txtStatus.Foreground = "#1A9330"
+        $txtStatus.Foreground = "#4CAF50"
     } catch {
         LogMsg "> FATAL ERROR: $_" 100
         $txtStatus.Text = "An error occurred."
-        $txtStatus.Foreground = "#CC0000"
+        $txtStatus.Foreground = "#FF3333"
     }
 
     $btnExit.Content = "CLOSE"
