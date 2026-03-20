@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.pg" alt="Autodesk Windows Fixer Banner" width="100%" style="border-radius:15px; margin-bottom: 20px;"/>
+<img src="assets/banner.png" alt="Autodesk Windows Fixer Banner" width="100%" style="border-radius:15px; margin-bottom: 20px;"/>
 
 # 🚀 Autodesk Windows Fixer & Cleaner 🚀
 <img src="assets/icon.png" alt="App Icon" width="120" style="margin-bottom: 20px;"/>
